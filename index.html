@@ -61,6 +61,12 @@ h2{font-size:38px;letter-spacing:-.03em;margin:8px 0 12px}
 .feature{display:flex;gap:9px;font-size:14px;color:#334155}.tick{color:#047857;font-weight:900}
 .faq{max-width:800px;margin:auto}.faqItem{border-bottom:1px solid var(--line);padding:20px 0}.faqItem h3{font-size:16px;margin:0 0 7px}.faqItem p{margin:0;font-size:14px}
 footer{padding:34px 0;color:#64748b;font-size:13px;text-align:center}
+.contactWrap{max-width:820px;margin:auto;display:grid;grid-template-columns:.85fr 1.15fr;gap:28px;align-items:start}
+.contactInfo{padding-top:12px}.contactInfo h2{margin-top:8px}.contactPoints{display:flex;flex-direction:column;gap:12px;margin-top:24px}.contactPoint{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#475569}.contactPoint b{color:#111827}
+.formCard{background:#fff;border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 16px 50px rgba(15,23,42,.06)}
+.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:800;color:#334155}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;color:#111827;font:inherit;outline:none}.field textarea{min-height:110px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:#94a3b8;box-shadow:0 0 0 3px #f1f5f9}
+.consent{display:flex;gap:9px;align-items:flex-start;margin-top:14px;font-size:12px;color:#64748b}.consent input{margin-top:2px}.formMsg{display:none;margin-top:12px;padding:11px 12px;border-radius:12px;font-size:13px}.formMsg.ok{display:block;background:#ecfdf5;color:#047857}.formMsg.err{display:block;background:#fef2f2;color:#b91c1c}
+@media(max-width:900px){.contactWrap{grid-template-columns:1fr}}
 @media(max-width:900px){
   .heroGrid{grid-template-columns:1fr}.hero{padding-top:56px}h1{font-size:45px}.cards,.steps{grid-template-columns:1fr}.navlinks{display:none}.demoStrip{grid-template-columns:1fr}.features{grid-template-columns:1fr}
 }
@@ -76,7 +82,7 @@ footer{padding:34px 0;color:#64748b;font-size:13px;text-align:center}
       <a href="#funciones">Funciones</a>
       <a href="#precio">Precio</a>
     </div>
-    <a class="btn primary" href="recordatorios-citas.html">Ver demo</a>
+    <a class="btn primary" href="#contacto">Quiero información</a>
   </div>
 </nav>
 
@@ -89,7 +95,7 @@ footer{padding:34px 0;color:#64748b;font-size:13px;text-align:center}
         <p>Tú sigues dando las citas como siempre. Solo introduces nombre, teléfono, día y hora. El sistema se encarga de recordar automáticamente al cliente que tiene que venir.</p>
         <div class="heroActions">
           <a class="btn primary" href="recordatorios-citas.html">Probar demo gratis</a>
-          <a class="btn secondary" href="#como-funciona">Ver cómo funciona</a>
+          <a class="btn secondary" href="#contacto">Quiero información</a>
         </div>
         <div class="micro">Pensado para barberías, peluquerías, fisios, uñas, tatuadores y otros negocios con cita previa.</div>
       </div>
@@ -176,13 +182,54 @@ footer{padding:34px 0;color:#64748b;font-size:13px;text-align:center}
           <div class="feature"><span class="tick">✓</span><span>Acceso desde móvil y ordenador</span></div>
           <div class="feature"><span class="tick">✓</span><span>Soporte y ajustes básicos</span></div>
         </div>
-        <a class="btn primary" style="width:100%" href="recordatorios-citas.html">Probar antes de decidir</a>
+        <a class="btn primary" style="width:100%" href="#contacto">Quiero información</a>
         <p style="font-size:12px;margin:12px 0 0;text-align:center">El coste de mensajería de WhatsApp/SMS, si lo hubiera, se gestiona aparte según el proveedor utilizado.</p>
       </div>
     </div>
   </section>
 
-  <section class="section white">
+
+  <section class="section white" id="contacto">
+    <div class="wrap contactWrap">
+      <div class="contactInfo">
+        <div class="kicker">¿Te interesa?</div>
+        <h2>Cuéntame qué negocio tienes</h2>
+        <p>Déjame tus datos y me pondré en contacto contigo para enseñarte cómo quedaría RecordaCita adaptado a tu negocio.</p>
+        <div class="contactPoints">
+          <div class="contactPoint"><span>✓</span><div><b>Sin compromiso.</b><br>Primero vemos si realmente te encaja.</div></div>
+          <div class="contactPoint"><span>✓</span><div><b>Demo personalizada.</b><br>Puedo poner el nombre de tu negocio y enseñártelo funcionando.</div></div>
+          <div class="contactPoint"><span>✓</span><div><b>Sin cambiar tu forma de trabajar.</b><br>La idea es añadir el recordatorio, no complicarte la agenda.</div></div>
+        </div>
+      </div>
+
+      <form class="formCard" id="leadForm">
+        <div class="formGrid">
+          <div class="field"><label>Tu nombre *</label><input id="leadName" maxlength="80" required placeholder="Ej. Iker"></div>
+          <div class="field"><label>Teléfono *</label><input id="leadPhone" maxlength="30" required inputmode="tel" placeholder="Ej. 600 123 123"></div>
+          <div class="field"><label>Tipo de negocio *</label>
+            <select id="leadBusiness" required>
+              <option value="">Selecciona...</option>
+              <option>Barbería</option>
+              <option>Peluquería</option>
+              <option>Centro de uñas / estética</option>
+              <option>Fisioterapia</option>
+              <option>Tatuajes</option>
+              <option>Entrenamiento personal</option>
+              <option>Academia</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="field"><label>Ciudad</label><input id="leadCity" maxlength="100" placeholder="Ej. Bilbao"></div>
+          <div class="field full"><label>¿Quieres contarme algo?</label><textarea id="leadMessage" maxlength="1000" placeholder="Ej. Tenemos unas 20 citas al día y las apuntamos en una agenda..."></textarea></div>
+        </div>
+        <label class="consent"><input id="leadConsent" type="checkbox" required><span>Acepto que se usen estos datos únicamente para contactar conmigo sobre RecordaCita.</span></label>
+        <button class="btn primary" id="leadSubmit" type="submit" style="width:100%;margin-top:16px">Quiero información</button>
+        <div class="formMsg" id="leadMsg"></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section">
     <div class="wrap faq">
       <div class="center" style="margin-bottom:16px">
         <div class="kicker">Preguntas frecuentes</div>
@@ -199,5 +246,38 @@ footer{padding:34px 0;color:#64748b;font-size:13px;text-align:center}
 <footer>
   <div class="wrap">RecordaCita · Sistema de recordatorios para negocios con cita previa</div>
 </footer>
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const sb=createClient('https://rzbwbilscgeeprflviwf.supabase.co','sb_publishable_m-Z2NAiEYucjQhOJ2N5Wvw_7RqrtmCu');
+const form=document.getElementById('leadForm');
+const msg=document.getElementById('leadMsg');
+const submit=document.getElementById('leadSubmit');
+form.addEventListener('submit',async function(e){
+  e.preventDefault();
+  msg.className='formMsg';
+  msg.textContent='';
+  submit.disabled=true;
+  submit.textContent='Enviando...';
+  const payload={
+    name:document.getElementById('leadName').value.trim(),
+    phone:document.getElementById('leadPhone').value.trim(),
+    business_type:document.getElementById('leadBusiness').value,
+    city:document.getElementById('leadCity').value.trim()||null,
+    message:document.getElementById('leadMessage').value.trim()||null,
+    consent:document.getElementById('leadConsent').checked
+  };
+  const r=await sb.from('recordacita_leads').insert(payload);
+  submit.disabled=false;
+  submit.textContent='Quiero información';
+  if(r.error){
+    msg.className='formMsg err';
+    msg.textContent='No se ha podido enviar. Inténtalo otra vez en unos segundos.';
+    return;
+  }
+  form.reset();
+  msg.className='formMsg ok';
+  msg.textContent='¡Recibido! Me pondré en contacto contigo.';
+});
+</script>
 </body>
 </html>
