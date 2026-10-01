@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recordatorios de citas</title>
+<meta name="theme-color" content="#111827">
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#172033;--muted:#6b7280;--line:#e6eaf0;--accent:#111827;--ok:#0f9f6e;--warn:#d97706;--danger:#dc2626;--soft:#eef2f7}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer}
+.shell{max-width:1180px;margin:auto;padding:24px}.topbar{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:22px}.brand{display:flex;gap:12px;align-items:center}.logo{width:42px;height:42px;border-radius:14px;background:var(--accent);display:grid;place-items:center;color:#fff;font-weight:800}.brand h1{margin:0;font-size:21px}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.badge{padding:8px 11px;border-radius:999px;background:#e9fff6;color:#087451;font-size:12px;font-weight:700}.card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 8px 30px rgba(15,23,42,.04)}.cardpad{padding:20px}.grid{display:grid;grid-template-columns:1.05fr 1.95fr;gap:18px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px}.stat .n{font-size:25px;font-weight:800}.stat .t{font-size:12px;color:var(--muted);margin-top:3px}
+h2{font-size:17px;margin:0 0 4px}.sub{color:var(--muted);font-size:13px;margin:0 0 18px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:700}.field input,.field select{border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:#fff;outline:none}.actions{display:flex;gap:9px;margin-top:15px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:11px 14px;font-weight:750}.btn.primary{background:var(--accent);color:#fff}.btn.secondary{background:var(--soft)}.btn.danger{background:#fff1f2;color:#b91c1c}.btn.small{padding:8px 10px;font-size:12px}
+.toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}.search{flex:1;border:1px solid var(--line);border-radius:12px;padding:10px 12px;max-width:220px}.list{display:flex;flex-direction:column;gap:10px}.appt{border:1px solid var(--line);border-radius:16px;padding:14px}.appttop{display:flex;justify-content:space-between;gap:12px}.who{font-weight:800}.meta{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.45}.status{font-size:11px;font-weight:800;padding:6px 9px;border-radius:999px;white-space:nowrap}.pending,.waiting_provider{background:#fff7ed;color:#b45309}.sent{background:#ecfdf5;color:#047857}.failed,.cancelled{background:#fef2f2;color:#b91c1c}.processing{background:#eef2ff;color:#4338ca}.rowactions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.empty{padding:34px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}.note{margin-top:18px;padding:14px;border-radius:14px;background:#f8fafc;border:1px solid var(--line);font-size:13px;line-height:1.5}.preview{background:#0f172a;color:#fff;border-radius:14px;padding:14px;font-size:13px;line-height:1.5;min-height:90px;white-space:pre-wrap}.auth{max-width:460px;margin:50px auto}.hidden{display:none!important}.toast{position:fixed;right:18px;bottom:18px;background:#111827;color:#fff;padding:12px 14px;border-radius:12px;display:none;max-width:320px}.settings{margin-top:18px}.footer{text-align:center;color:var(--muted);font-size:12px;margin:22px 0}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.filter{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800;color:var(--muted)}.filter.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.daygroup{margin-top:14px}.daytitle{font-size:12px;font-weight:900;color:#6b7280;text-transform:uppercase;letter-spacing:.08em;margin:15px 2px 8px}
+.remindline{margin-top:8px;padding:9px 10px;border-radius:10px;background:#f8fafc;font-size:12px;color:#475569}.remindline strong{color:#111827}
+.demoaction{background:#ecfdf5!important;color:#047857!important}
+.brandingbox{display:grid;grid-template-columns:1fr 100px;gap:10px;margin-top:12px}.miniLogo{width:54px;height:54px;border-radius:16px;background:#111827;color:#fff;display:grid;place-items:center;font-weight:900;font-size:18px;margin-top:6px}
+.nextbox{margin-top:18px}.nextrow{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}.nextrow:last-child{border-bottom:0}.nextwho{font-weight:800;font-size:13px}.nexttime{font-size:12px;color:var(--muted);margin-top:2px}.nextbadge{font-size:11px;font-weight:800;color:#047857;background:#ecfdf5;border-radius:999px;padding:6px 8px;align-self:flex-start}
+.stat.sentstat .n{color:#047857}.heroStrip{background:linear-gradient(135deg,#111827,#334155);color:#fff;border-radius:20px;padding:18px 20px;margin-bottom:18px;display:flex;justify-content:space-between;gap:16px;align-items:center}.heroStrip h3{margin:0 0 4px;font-size:16px}.heroStrip p{margin:0;color:#cbd5e1;font-size:12px}.heroStrip .pill{background:rgba(255,255,255,.12);padding:8px 10px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap}
+@media(max-width:840px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.shell{padding:14px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div id="authView" class="card cardpad auth">
+    <h2>Acceso del negocio</h2>
+    <p class="sub">Tus citas se guardan en la nube y solo las ve tu cuenta.</p>
+    <div class="field"><label>Email</label><input id="authEmail" type="email" placeholder="tu@email.com"></div>
+    <div class="field" style="margin-top:10px"><label>Contraseña</label><input id="authPass" type="password" placeholder="Mínimo 6 caracteres"></div>
+    <div class="actions"><button class="btn primary" id="demoLoginBtn">Entrar en demo</button><button class="btn secondary" id="loginBtn">Entrar con cuenta</button><button class="btn secondary" id="signupBtn">Crear cuenta</button></div>
+    <div class="note"><strong>Para probarlo ahora:</strong> pulsa “Entrar en demo”. No necesitas usuario ni contraseña. La cuenta solo hará falta cuando lo use un negocio real.</div>
+  </div>
+
+  <div id="appView" class="hidden">
+    <div class="topbar">
+      <div class="brand"><div class="logo">RC</div><div><h1>Recordatorios de citas</h1><p id="businessLabel">Panel del negocio</p></div></div>
+      <div><span class="badge" id="modeBadge">Nube conectada</span> <button class="btn secondary small" id="logoutBtn">Salir</button></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="n" id="statToday">0</div><div class="t">Citas hoy</div></div>
+      <div class="stat"><div class="n" id="statTomorrow">0</div><div class="t">Citas mañana</div></div>
+      <div class="stat"><div class="n" id="statPending">0</div><div class="t">Recordatorios pendientes</div></div>
+      <div class="stat sentstat"><div class="n" id="statSent">0</div><div class="t">Recordatorios enviados</div></div>
+    </div>
+
+    <div class="heroStrip">
+      <div><h3>📲 Reduce citas olvidadas sin cambiar tu forma de trabajar</h3><p>Apuntas la cita como siempre. El sistema se encarga del recordatorio.</p></div>
+      <div class="pill">Demo comercial</div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <div class="card cardpad">
+          <h2>Nueva cita</h2><p class="sub">El negocio mete la cita y queda programada en la nube.</p>
+          <form id="apptForm">
+            <div class="formgrid">
+              <div class="field full"><label>Cliente</label><input id="client" required></div>
+              <div class="field"><label>Teléfono</label><input id="phone" required placeholder="607 775 804"></div>
+              <div class="field"><label>Trabajador</label><input id="worker"></div>
+              <div class="field"><label>Fecha</label><input id="date" type="date" required></div>
+              <div class="field"><label>Hora</label><input id="time" type="time" required></div>
+              <div class="field full"><label>Servicio</label><input id="service" placeholder="Corte + barba"></div>
+              <div class="field"><label>Recordar</label><select id="reminder"><option value="24">24 h antes</option><option value="2">2 h antes</option><option value="48">48 h antes</option></select></div>
+              <div class="field"><label>Canal</label><select id="channel"><option value="whatsapp">WhatsApp</option><option value="sms">SMS</option><option value="email">Email</option></select></div>
+            </div>
+            <div class="actions"><button class="btn primary" type="submit">Guardar cita</button><button class="btn secondary" type="button" id="demoBtn">Cargar ejemplo</button></div>
+          </form>
+        </div>
+
+        <div class="card cardpad settings" id="whatsappSettings">
+          <h2>Conectar WhatsApp Business</h2>
+          <p class="sub">El token se guarda cifrado en Supabase Vault, no en la web.</p>
+          <div class="field"><label>Nombre del negocio</label><input id="bizName" placeholder="Barbería Norte"></div>
+          <div class="field" style="margin-top:10px"><label>Phone Number ID de Meta</label><input id="waPhoneId" placeholder="123456789..."></div>
+          <div class="field" style="margin-top:10px"><label>Access Token de Meta</label><input id="waToken" type="password" placeholder="EAA..."></div>
+          <div class="formgrid" style="margin-top:10px">
+            <div class="field"><label>Plantilla</label><input id="waTemplate" value="appointment_reminder"></div>
+            <div class="field"><label>Idioma</label><input id="waLang" value="es"></div>
+          </div>
+          <div class="actions"><button class="btn primary" id="saveWaBtn">Guardar configuración</button></div>
+          <div class="note" id="waState">WhatsApp todavía no está conectado.</div>
+        </div>
+
+        <div class="card cardpad" style="margin-top:18px">
+          <h2>Mensaje</h2><p class="sub">Ejemplo del recordatorio.</p><div class="preview" id="preview"></div>
+        </div>
+      </div>
+
+      <div class="card cardpad">
+        <div class="toolbar"><div><h2>Agenda de citas</h2><p class="sub" style="margin:3px 0 0" id="storageLabel">Guardadas en Supabase</p></div><input class="search" id="search" placeholder="Buscar cliente..."></div>
+        <div class="filters">
+          <button class="filter active" data-filter="all">Todas</button>
+          <button class="filter" data-filter="today">Hoy</button>
+          <button class="filter" data-filter="tomorrow">Mañana</button>
+          <button class="filter" data-filter="pending">Pendientes</button>
+          <button class="filter" data-filter="sent">Enviadas</button>
+        </div>
+        <div class="list" id="list"></div>
+        <div class="nextbox">
+          <h2>Próximos recordatorios</h2>
+          <p class="sub">Cuándo saldrá el siguiente aviso.</p>
+          <div id="nextReminders"></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">Backend con Supabase + RLS. Datos y credenciales protegidos.</div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const SUPABASE_URL='https://rzbwbilscgeeprflviwf.supabase.co';
+const SUPABASE_KEY='sb_publishable_m-Z2NAiEYucjQhOJ2N5Wvw_7RqrtmCu';
+const sb=createClient(SUPABASE_URL,SUPABASE_KEY);
+let business=null,appointments=[],editingId=null,demoMode=false,currentFilter='all';
+const DEMO_KEY='recordatorios_demo_v2';
+const $=id=>document.getElementById(id);
+
+function toast(msg){$('toast').textContent=msg;$('toast').style.display='block';setTimeout(function(){$('toast').style.display='none'},2800)}
+function setDefaultDate(){const d=new Date();d.setDate(d.getDate()+1);$('date').value=d.toISOString().slice(0,10);$('time').value='18:00'}
+function message(){
+  let s='Hola '+($('client').value||'Andeka')+' 👋\nTe recordamos que tienes una cita el '+($('date').value||'02/10')+' a las '+($('time').value||'18:00');
+  if($('service').value)s+=' para '+$('service').value;
+  if($('worker').value)s+=' con '+$('worker').value;
+  return s+'.\nSi no puedes venir, avísanos con tiempo. ¡Gracias!';
+}
+function updatePreview(){$('preview').textContent=message()}
+function demoSave(){localStorage.setItem(DEMO_KEY,JSON.stringify(appointments))}
+function demoLoad(){
+  try{appointments=JSON.parse(localStorage.getItem(DEMO_KEY)||'[]')}catch(e){appointments=[]}
+  if(!appointments.length){
+    const d=new Date();d.setDate(d.getDate()+1);
+    const d2=new Date();d2.setDate(d2.getDate()+2);
+    const d3=new Date();d3.setDate(d3.getDate()+3);
+    const a1=new Date(d.toISOString().slice(0,10)+'T18:00:00');
+    const a2=new Date(d2.toISOString().slice(0,10)+'T11:30:00');
+    const a3=new Date(d3.toISOString().slice(0,10)+'T17:00:00');
+    appointments=[
+      {id:'demo-'+Date.now()+'a',business_id:'demo',client_name:'Mikel',phone:'600123123',worker:'Iker',service:'Corte',appointment_at:a1.toISOString(),reminder_hours:24,reminder_at:new Date(a1.getTime()-24*3600000).toISOString(),channel:'whatsapp',reminder_status:'pending'},
+      {id:'demo-'+Date.now()+'b',business_id:'demo',client_name:'Jon',phone:'611222333',worker:'Unai',service:'Corte + barba',appointment_at:a2.toISOString(),reminder_hours:24,reminder_at:new Date(a2.getTime()-24*3600000).toISOString(),channel:'whatsapp',reminder_status:'sent'},
+      {id:'demo-'+Date.now()+'c',business_id:'demo',client_name:'Aitor',phone:'622333444',worker:'Iker',service:'Barba',appointment_at:a3.toISOString(),reminder_hours:2,reminder_at:new Date(a3.getTime()-2*3600000).toISOString(),channel:'whatsapp',reminder_status:'pending'}
+    ];
+    demoSave();
+  }
+  render();
+}
+function enterDemo(){
+  demoMode=true;
+  const savedName=localStorage.getItem('demo_business_name')||'Barbería Norte';
+  const savedLogo=localStorage.getItem('demo_business_logo')||'BN';
+  business={id:'demo',name:savedName,whatsapp_configured:false};
+  $('authView').classList.add('hidden');$('appView').classList.remove('hidden');
+  $('businessLabel').textContent=savedName;
+  document.querySelector('.logo').textContent=savedLogo;
+  $('modeBadge').textContent='Modo demo';
+  $('storageLabel').textContent='Demo guardada en este navegador';
+  $('whatsappSettings').innerHTML='<h2>Personaliza la demo</h2><p class="sub">Cámbiala en segundos para enseñársela a cualquier negocio.</p><div class="brandingbox"><div class="field"><label>Nombre del negocio</label><input id="demoBizName" value="'+esc(savedName)+'"></div><div class="field"><label>Iniciales</label><input id="demoLogo" maxlength="3" value="'+esc(savedLogo)+'"></div></div><div class="actions"><button class="btn primary" id="applyBrandBtn">Aplicar marca</button></div><div class="note"><strong>Versión real</strong>Cuando el negocio contrate el sistema conectaremos su WhatsApp Business para que los recordatorios salgan solos.</div>';
+  setTimeout(function(){
+    const b=document.getElementById('applyBrandBtn');
+    if(b)b.addEventListener('click',function(){
+      const name=(document.getElementById('demoBizName').value||'Mi negocio').trim();
+      const initials=(document.getElementById('demoLogo').value||name.slice(0,2)).trim().toUpperCase().slice(0,3);
+      localStorage.setItem('demo_business_name',name);localStorage.setItem('demo_business_logo',initials);
+      business.name=name;$('businessLabel').textContent=name;document.querySelector('.logo').textContent=initials;toast('Marca aplicada a la demo');
+    });
+  },0);
+  demoLoad();
+}
+['client','date','time','service','worker'].forEach(function(id){$(id).addEventListener('input',updatePreview)});
+
+async function ensureBusiness(){
+  const one=await sb.rpc('reminder_ensure_business',{p_name:'Mi negocio'});if(one.error)throw one.error;
+  const two=await sb.from('reminder_businesses').select('*').eq('id',one.data).single();if(two.error)throw two.error;
+  business=two.data;$('businessLabel').textContent=business.name;$('bizName').value=business.name||'';$('waPhoneId').value=business.whatsapp_phone_number_id||'';$('waTemplate').value=business.whatsapp_template_name||'appointment_reminder';$('waLang').value=business.whatsapp_template_language||'es';$('waState').textContent=business.whatsapp_configured?'WhatsApp configurado ✅':'WhatsApp todavía no está conectado.';
+}
+async function loadAppointments(){if(demoMode){demoLoad();return}const r=await sb.from('reminder_appointments').select('*').eq('business_id',business.id).order('appointment_at',{ascending:true});if(r.error)throw r.error;appointments=r.data||[];render()}
+function dt(a){return new Date(a.appointment_at)}
+function fmt(a){return dt(a).toLocaleString('es-ES',{weekday:'short',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}
+function statusText(s){return ({pending:'Programado',processing:'Procesando',sent:'Enviado',failed:'Error',cancelled:'Cancelada',waiting_provider:'Esperando WhatsApp'})[s]||s}
+function esc(s){return String(s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function reminderDate(a){return a.reminder_at?new Date(a.reminder_at):new Date(dt(a).getTime()-Number(a.reminder_hours||24)*3600000)}
+function fmtReminder(a){return reminderDate(a).toLocaleString('es-ES',{weekday:'short',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}
+function dayKey(a){const x=dt(a);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')}
+function dayLabel(a){return dt(a).toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'})}
+function matchesFilter(a){
+  const now=new Date(),tom=new Date();tom.setDate(now.getDate()+1);
+  const same=function(x,y){return x.getFullYear()===y.getFullYear()&&x.getMonth()===y.getMonth()&&x.getDate()===y.getDate()};
+  if(currentFilter==='today')return same(dt(a),now);
+  if(currentFilter==='tomorrow')return same(dt(a),tom);
+  if(currentFilter==='pending')return ['pending','processing','failed','waiting_provider'].includes(a.reminder_status);
+  if(currentFilter==='sent')return a.reminder_status==='sent';
+  return true;
+}
+function renderNextReminders(){
+  const box=$('nextReminders');
+  const rows=appointments.filter(function(a){return a.reminder_status!=='cancelled'&&a.reminder_status!=='sent'}).sort(function(a,b){return reminderDate(a)-reminderDate(b)}).slice(0,4);
+  if(!rows.length){box.innerHTML='<div class="empty">No hay recordatorios pendientes.</div>';return}
+  box.innerHTML=rows.map(function(a){return '<div class="nextrow"><div><div class="nextwho">'+esc(a.client_name)+'</div><div class="nexttime">'+esc(fmtReminder(a))+' · '+esc(a.channel)+'</div></div><div class="nextbadge">'+(reminderDate(a)<new Date()?'Listo para enviar':'Programado')+'</div></div>'}).join('');
+}
+function render(){
+  const q=$('search').value.trim().toLowerCase();
+  const rows=appointments.filter(function(a){return matchesFilter(a)&&(!q||(a.client_name+' '+a.phone+' '+(a.service||'')+' '+(a.worker||'')).toLowerCase().includes(q))}).sort(function(a,b){return dt(a)-dt(b)});
+  if(!rows.length){$('list').innerHTML='<div class="empty">No hay citas en esta vista.</div>'}
+  else {
+    let html='',lastDay='';
+    rows.forEach(function(a){
+      const key=dayKey(a);
+      if(key!==lastDay){html+='<div class="daytitle">'+esc(dayLabel(a))+'</div>';lastDay=key}
+      const demoSend=demoMode&&a.reminder_status!=='sent'?'<button class="btn small demoaction" onclick="simulateSend(\''+a.id+'\')">▶ Simular envío</button>':'';
+      html+='<div class="appt"><div class="appttop"><div><div class="who">'+esc(a.client_name)+'</div><div class="meta">'+esc(fmt(a))+(a.service?' · '+esc(a.service):'')+(a.worker?' · '+esc(a.worker):'')+'<br>'+esc(a.phone)+' · '+esc(a.channel)+'</div><div class="remindline">⏰ <strong>Recordatorio:</strong> '+esc(fmtReminder(a))+' ('+a.reminder_hours+' h antes)</div></div><span class="status '+esc(a.reminder_status)+'">'+statusText(a.reminder_status)+'</span></div><div class="rowactions">'+demoSend+'<button class="btn secondary small" onclick="editAppt(\''+a.id+'\')">Editar</button><button class="btn danger small" onclick="deleteAppt(\''+a.id+'\')">Eliminar</button></div></div>';
+    });
+    $('list').innerHTML=html;
+  }
+  const now=new Date(),tom=new Date();tom.setDate(now.getDate()+1);const same=function(x,y){return x.getFullYear()===y.getFullYear()&&x.getMonth()===y.getMonth()&&x.getDate()===y.getDate()};
+  $('statToday').textContent=appointments.filter(function(a){return same(dt(a),now)&&a.reminder_status!=='cancelled'}).length;
+  $('statTomorrow').textContent=appointments.filter(function(a){return same(dt(a),tom)&&a.reminder_status!=='cancelled'}).length;
+  $('statPending').textContent=appointments.filter(function(a){return ['pending','failed','waiting_provider','processing'].includes(a.reminder_status)}).length;
+  $('statSent').textContent=appointments.filter(function(a){return a.reminder_status==='sent'}).length;
+  renderNextReminders();
+}
+$('search').addEventListener('input',render);
+document.querySelectorAll('.filter').forEach(function(btn){btn.addEventListener('click',function(){
+  currentFilter=btn.dataset.filter;
+  document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
+  btn.classList.add('active');render();
+})});
+
+$('apptForm').addEventListener('submit',async function(e){
+  e.preventDefault();const when=new Date($('date').value+'T'+$('time').value+':00');const hours=Number($('reminder').value);const reminderAt=new Date(when.getTime()-hours*3600000);
+  const payload={business_id:business.id,client_name:$('client').value.trim(),phone:$('phone').value.trim(),worker:$('worker').value.trim()||null,service:$('service').value.trim()||null,appointment_at:when.toISOString(),reminder_hours:hours,reminder_at:reminderAt.toISOString(),channel:$('channel').value,reminder_status:'pending',sent_at:null,last_error:null,provider_message_id:null};
+  if(demoMode){
+    if(editingId){appointments=appointments.map(function(a){return a.id===editingId?Object.assign({},a,payload):a})}
+    else{payload.id='demo-'+Date.now();appointments.push(payload)}
+    demoSave();editingId=null;e.target.reset();setDefaultDate();updatePreview();render();toast('Cita guardada en la demo');return;
+  }
+  const r=editingId?await sb.from('reminder_appointments').update(payload).eq('id',editingId):await sb.from('reminder_appointments').insert(payload);
+  if(r.error){toast(r.error.message);return}editingId=null;e.target.reset();setDefaultDate();updatePreview();await loadAppointments();toast('Cita guardada');
+});
+window.editAppt=async function(id){const a=appointments.find(function(x){return x.id===id});if(!a)return;editingId=id;$('client').value=a.client_name;$('phone').value=a.phone;$('worker').value=a.worker||'';$('service').value=a.service||'';$('reminder').value=String(a.reminder_hours);$('channel').value=a.channel;const x=new Date(a.appointment_at);$('date').value=x.toISOString().slice(0,10);$('time').value=x.toTimeString().slice(0,5);updatePreview();scrollTo({top:0,behavior:'smooth'})};
+window.simulateSend=function(id){
+  if(!demoMode)return;
+  appointments=appointments.map(function(a){return a.id===id?Object.assign({},a,{reminder_status:'sent',sent_at:new Date().toISOString()}):a});
+  demoSave();render();toast('Recordatorio simulado como enviado ✅');
+};
+window.deleteAppt=async function(id){if(!confirm('¿Eliminar esta cita?'))return;if(demoMode){appointments=appointments.filter(function(a){return a.id!==id});demoSave();render();toast('Cita eliminada');return}const r=await sb.from('reminder_appointments').delete().eq('id',id);if(r.error)toast(r.error.message);else{await loadAppointments();toast('Cita eliminada')}};
+$('demoBtn').addEventListener('click',function(){$('client').value='Mikel';$('phone').value='600 456 789';$('worker').value='Iker';$('service').value='Corte + barba';const d=new Date();d.setDate(d.getDate()+2);$('date').value=d.toISOString().slice(0,10);$('time').value='17:30';updatePreview()});
+
+$('saveWaBtn').addEventListener('click',async function(){if(demoMode){toast('En la demo no hace falta conectar WhatsApp');return}
+  if($('bizName').value.trim()&&$('bizName').value.trim()!==business.name){const b=await sb.from('reminder_businesses').update({name:$('bizName').value.trim()}).eq('id',business.id);if(b.error){toast(b.error.message);return}}
+  if(!$('waPhoneId').value.trim()||!$('waToken').value.trim()){toast('Faltan Phone Number ID y Access Token');return}
+  const r=await sb.rpc('reminder_set_whatsapp_config',{p_phone_number_id:$('waPhoneId').value.trim(),p_access_token:$('waToken').value.trim(),p_template_name:$('waTemplate').value.trim()||'appointment_reminder',p_template_language:$('waLang').value.trim()||'es'});
+  if(r.error){toast(r.error.message);return}$('waToken').value='';await ensureBusiness();toast('WhatsApp guardado de forma segura');
+});
+async function enter(){const g=await sb.auth.getSession();if(!g.data.session){$('authView').classList.remove('hidden');$('appView').classList.add('hidden');return}$('authView').classList.add('hidden');$('appView').classList.remove('hidden');try{await ensureBusiness();await loadAppointments()}catch(e){toast(e.message)}}
+$('demoLoginBtn').addEventListener('click',function(){enterDemo()});
+$('loginBtn').addEventListener('click',async function(){const r=await sb.auth.signInWithPassword({email:$('authEmail').value.trim(),password:$('authPass').value});if(r.error)toast(r.error.message);else enter()});
+$('signupBtn').addEventListener('click',async function(){const r=await sb.auth.signUp({email:$('authEmail').value.trim(),password:$('authPass').value});if(r.error)toast(r.error.message);else toast('Cuenta creada. Si te pide confirmar email, revisa tu correo.')});
+$('logoutBtn').addEventListener('click',async function(){if(!demoMode)await sb.auth.signOut();location.reload()});
+setDefaultDate();updatePreview();enter();
+</script>
+</body>
+</html>
