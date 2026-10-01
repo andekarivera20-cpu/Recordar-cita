@@ -10,6 +10,8 @@ https://andekarivera20-cpu.github.io/Recordar-cita/
 - `recordatorios-citas.html` — demo interactiva del sistema de citas.
 - `admin.html` — panel privado para gestionar interesados.
 - `supabase/schema.sql` — esquema documentado del backend de Supabase, sin secretos.
+- `robots.txt` — reglas de rastreo para buscadores.
+- `sitemap.xml` — sitemap de la web pública.
 
 ## Funcionalidad actual
 - Demo sin registro.
