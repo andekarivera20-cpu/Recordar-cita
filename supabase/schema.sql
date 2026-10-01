@@ -165,3 +165,17 @@ revoke all on public.recordacita_leads from anon, authenticated;
 grant insert (name, phone, business_type, city, message, consent) on public.recordacita_leads to anon, authenticated;
 grant select on public.recordacita_leads to authenticated;
 grant update (status) on public.recordacita_leads to authenticated;
+
+
+-- WhatsApp automático
+alter table public.reminder_businesses
+  add column if not exists whatsapp_default_country_code text not null default '34';
+
+alter table public.reminder_appointments
+  add column if not exists whatsapp_opt_in boolean not null default false,
+  add column if not exists whatsapp_opt_in_at timestamptz;
+
+-- El worker real vive en Supabase Edge Functions:
+-- process-appointment-reminders
+-- Se ejecuta cada minuto mediante pg_cron + pg_net.
+-- Las credenciales privadas de Meta se guardan en Supabase Vault y NO en GitHub.
