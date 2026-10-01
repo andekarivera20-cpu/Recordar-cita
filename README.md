@@ -2,8 +2,25 @@
 
 Sistema de recordatorios de citas para pequeños negocios.
 
-- `index.html`: página comercial.
-- `recordatorios-citas.html`: demo interactiva.
+## Web pública
+https://andekarivera20-cpu.github.io/Recordar-cita/
+
+## Archivos principales
+- `index.html` — página comercial y formulario de interesados.
+- `recordatorios-citas.html` — demo interactiva del sistema de citas.
+- `admin.html` — panel privado para gestionar interesados.
+- `supabase/schema.sql` — esquema documentado del backend de Supabase, sin secretos.
+
+## Funcionalidad actual
+- Demo sin registro.
+- Alta, edición, filtrado y eliminación de citas.
+- Simulación de recordatorios.
+- Formulario comercial para captar interesados.
+- Mini CRM privado con estados: Nuevo, Contactado, Cliente y Descartado.
+- Datos almacenados en Supabase con RLS.
 - Precio mostrado actualmente: 99 € de puesta en marcha + 9,90 €/mes.
 
-La demo permite crear, editar y filtrar citas, personalizar el negocio y simular recordatorios.
+## Importante
+Las credenciales privadas, tokens y contraseñas no se guardan en GitHub.
+
+El envío automático real de WhatsApp en segundo plano todavía no está desplegado. La web y el backend ya están preparados para continuar esa integración.
