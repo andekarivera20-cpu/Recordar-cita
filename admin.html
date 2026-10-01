@@ -27,7 +27,7 @@ select.statusSelect{border:1px solid var(--line);border-radius:10px;padding:8px;
     <div class="field" style="margin-top:18px"><label>Email</label><input id="email" type="email" value="andekarivera20@gmail.com"></div>
     <div class="field" style="margin-top:10px"><label>Contraseña</label><input id="pass" type="password" placeholder="Tu contraseña"></div>
     <div class="actions"><button class="btn primary" id="loginBtn">Entrar</button><button class="btn secondary" id="signupBtn">Crear acceso</button></div>
-    <div class="note">Solo el email autorizado puede leer o modificar los interesados. La contraseña no está en GitHub ni en esta página.</div>
+    <div class="note">Solo el email autorizado puede leer o modificar los interesados. Si ya confirmaste el correo, entra directamente con tu contraseña. La contraseña no está en GitHub ni en esta página.</div>
   </div>
 
   <div id="appView" class="hidden">
@@ -110,7 +110,15 @@ window.setStatus=async function(id,status){
 document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');render()}));
 $('search').addEventListener('input',render);
 $('loginBtn').addEventListener('click',async()=>{const r=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('pass').value});if(r.error){toast(r.error.message);return}enter()});
-$('signupBtn').addEventListener('click',async()=>{const r=await sb.auth.signUp({email:$('email').value.trim(),password:$('pass').value});if(r.error){toast(r.error.message);return}toast('Acceso creado. Si te pide confirmar el correo, revisa Gmail.')});
+$('signupBtn').addEventListener('click',async()=>{
+  const r=await sb.auth.signUp({
+    email:$('email').value.trim(),
+    password:$('pass').value,
+    options:{emailRedirectTo:'https://andekarivera20-cpu.github.io/Recordar-cita/admin.html'}
+  });
+  if(r.error){toast(r.error.message);return}
+  toast('Acceso creado. Confirma el correo y vuelve a este panel.');
+});
 $('logoutBtn').addEventListener('click',async()=>{await sb.auth.signOut();location.reload()});
 async function enter(){const s=await sb.auth.getSession();if(!s.data.session){$('authView').classList.remove('hidden');$('appView').classList.add('hidden');return}$('authView').classList.add('hidden');$('appView').classList.remove('hidden');await loadLeads()}
 enter();
