@@ -14,7 +14,8 @@ https://andekarivera20-cpu.github.io/Recordar-cita/
 ## Funcionalidad actual
 - Demo sin registro.
 - Alta, edición, filtrado y eliminación de citas.
-- Simulación de recordatorios.
+- Simulación de recordatorios en la demo.
+- Worker real de WhatsApp en Supabase Edge Functions, programado cada minuto.
 - Formulario comercial para captar interesados.
 - Mini CRM privado con estados: Nuevo, Contactado, Cliente y Descartado.
 - Datos almacenados en Supabase con RLS.
@@ -23,4 +24,4 @@ https://andekarivera20-cpu.github.io/Recordar-cita/
 ## Importante
 Las credenciales privadas, tokens y contraseñas no se guardan en GitHub.
 
-El envío automático real de WhatsApp en segundo plano todavía no está desplegado. La web y el backend ya están preparados para continuar esa integración.
+El envío automático por WhatsApp ya está preparado en el backend. Para que un negocio envíe mensajes reales necesita conectar su cuenta de WhatsApp Business de Meta, indicar el Phone Number ID, guardar un Access Token válido y tener aprobada la plantilla `appointment_reminder` con 4 variables: cliente, fecha, hora y negocio.
